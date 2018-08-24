@@ -1,26 +1,29 @@
 package com.example.POC.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 public class Store {
-	
+
 	@Id
 	@GeneratedValue
-	private int storeId;
-	
+	private int id;
+
 	private String storeName;
-	
+
 	private int merchantId;
 
-	public int getStoreId() {
-		return storeId;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "store_payment", joinColumns = @JoinColumn(name = "storeId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "paymentId", referencedColumnName = "id"))
+	private Set<Payment> payments;
+
+	public int getId() {
+		return id;
 	}
 
-	public void setStoreId(int storeId) {
-		this.storeId = storeId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getStoreName() {
@@ -38,5 +41,13 @@ public class Store {
 	public void setMerchantId(int merchantId) {
 		this.merchantId = merchantId;
 	}
-	
+
+	public Set<Payment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(Set<Payment> payments) {
+		this.payments = payments;
+	}
+
 }

@@ -6,18 +6,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.example.POC.model.Store;
 
+
 @Repository
-public interface StoreRepository extends JpaRepository<Store, Long> {
+public interface StoreRepository extends JpaRepository<Store, Integer> {
 	
-	Store findBystoreId(int storeId);
+	Store findByid(int storeId);
 
 	List<Store> findAll();
 	
-	List<Store> findAllBystoreId(List<Store> list);
+	List<Store> findAllByid(List<Store> list);
 
 	Store save(Store persisted);
 
-	Store getByStoreId(int id);
+	Store getByid(int id);
 	
 
 }

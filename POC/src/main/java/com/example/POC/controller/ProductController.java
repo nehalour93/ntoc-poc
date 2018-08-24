@@ -33,7 +33,7 @@ public class ProductController {
 		String msg = null;
 		int id = product.getProductId();
 		int storeId = product.getProdStoreId();
-		if (storeRepository.findBystoreId(storeId) == null) {
+		if (storeRepository.findByid(storeId) == null) {
 			msg = "Unable to create Product for storeId  " + storeId + " store with this storeId does not exist.";
 			return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
 		} else {
@@ -45,7 +45,7 @@ public class ProductController {
 			} else {
 				msg = "Product created";
 				logger.info("Creating Product : {}", product);
-				Store store = storeRepository.findBystoreId(storeId);
+				Store store = storeRepository.findByid(storeId);
 				product.setProdMerchantId(store.getMerchantId());
 				productRepository.save(product);
 			}

@@ -31,10 +31,10 @@ public class StoreController {
 	@RequestMapping(value = "/store/", method = RequestMethod.PUT)
 	public ResponseEntity<String> createStore(@RequestBody Store store) {
 		String msg = null;
-		int id = store.getStoreId();
+		int id = store.getId();
 		int merchantId = store.getMerchantId();
 		if (userRepository.findById(merchantId) != null) {
-			if (storeRepository.findBystoreId(id) != null) {
+			if (storeRepository.findByid(id) != null) {
 				msg = "Unable to create store with id " + id + " as it already exists";
 				logger.error(msg);
 				return new ResponseEntity<>(msg, HttpStatus.CONFLICT);
@@ -58,10 +58,10 @@ public class StoreController {
 	public ResponseEntity<String> createStores(@RequestBody List<Store> stores) {
 		StringBuilder sb = new StringBuilder("");
 		for (Store s : stores) {
-			int id = s.getStoreId();
+			int id = s.getId();
 			int merchantId = s.getMerchantId();
 			if (userRepository.findById(merchantId) != null) {
-				if (storeRepository.findBystoreId(id) != null) {
+				if (storeRepository.findByid(id) != null) {
 					sb.append("Unable to create store with id " + id + " as it already exists.");
 					logger.error("Unable to create store");
 
@@ -83,8 +83,8 @@ public class StoreController {
 	@RequestMapping(value = "/store/", method = RequestMethod.POST)
 	public ResponseEntity<String> updateStore(@RequestBody Store store) {
 		String msg = null;
-		int id = store.getStoreId();
-		if (storeRepository.findBystoreId(id) == null) {
+		int id = store.getId();
+		if (storeRepository.findByid(id)== null) {
 			msg = "Unable to update store with id " + id + " as it already exists.";
 			logger.error(msg);
 			return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
@@ -102,8 +102,8 @@ public class StoreController {
 	public ResponseEntity<String> updateStores(@RequestBody List<Store> stores) {
 		StringBuilder sb = new StringBuilder("");
 		for (Store s : stores) {
-			int id = s.getStoreId();
-			if (storeRepository.findBystoreId(id) == null) {
+			int id = s.getId();
+			if (storeRepository.findByid(id) == null) {
 				sb.append("\nUnable to Update. A Store with id " + id + " doesn't exist.");
 			} else {
 				sb.append("\nStore with id " + id + " updated");
@@ -117,7 +117,7 @@ public class StoreController {
 	@RequestMapping(value = "/store/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Store> getStore(@PathVariable("id") int id) {
 		String msg = null;
-		Store store = storeRepository.findBystoreId(id);
+		Store store = storeRepository.findByid(id);
 		if (store == null) {
 			msg = "Unable to retrieve. A Store with id " + id + " doesn't exist.";
 			logger.error(msg);
@@ -126,7 +126,7 @@ public class StoreController {
 
 		else {
 			logger.info("Retrieving Store : {}", id);
-			storeRepository.getByStoreId(id);
+			storeRepository.getByid(id);
 		}
 
 		return new ResponseEntity<>(store, HttpStatus.FOUND);
